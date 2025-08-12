@@ -1,21 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 
-const schemaPath = path.join(__dirname, "prisma", "schema.prisma");
-const provider = process.argv[2]; // 'sqlite' or 'postgresql'
+const provider = process.env.DB_PROVIDER;
 
-if (!provider) {
-  console.error("❌ Please provide a provider: sqlite or postgresql");
+if (!["sqlite", "postgresql"].includes(provider)) {
+  console.error(`❌ Invalid or missing DB_PROVIDER: "${provider}"`);
   process.exit(1);
 }
 
-const schema = fs.readFileSync(schemaPath, "utf-8");
+const schemaPath = path.join(__dirname, "schema.prisma");
+let schema = fs.readFileSync(schemaPath, "utf-8");
 
-const replaced = schema.replace(
+schema = schema.replace(
   /provider\s*=\s*"(sqlite|postgresql|mysql)"/,
   `provider = "${provider}"`
 );
 
-fs.writeFileSync(schemaPath, replaced, "utf-8");
-
-console.log(`✅ Replaced provider with "${provider}" in schema.prisma`);
+fs.writeFileSync(schemaPath, schema, "utf-8");
+console.log(`✅ Prisma provider set to "${provider}"`);
