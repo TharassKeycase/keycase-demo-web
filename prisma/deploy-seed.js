@@ -23,35 +23,132 @@ async function main() {
   }
   
   try {
-    // Try to import the compiled seed function
-    let seedFunction;
+    console.log('Running basic database seed with users and roles...');
     
-    try {
-      // First try to import from the built/compiled version
-      const seedModule = require('../.next/server/src/services/seedData.js');
-      seedFunction = seedModule.resetAndSeedDatabase;
-    } catch (buildError) {
-      try {
-        // If that fails, try to import from dist folder (if using tsc)
-        const seedModule = require('../dist/src/services/seedData.js');
-        seedFunction = seedModule.resetAndSeedDatabase;
-      } catch (distError) {
-        // If neither works, try direct TypeScript execution
-        console.log('Could not find compiled seed function, trying to compile on-the-fly...');
-        
-        // This requires ts-node to be installed
-        require('ts-node/register');
-        const seedModule = require('../src/services/seedData.ts');
-        seedFunction = seedModule.resetAndSeedDatabase;
+    // Use the comprehensive CJS seed file which includes error handling
+    const seedModule = require('./seed-comprehensive.cjs');
+    
+    // The seed-comprehensive.cjs file will run its main function when required
+    // But we need to wait for it, so let's import and run directly
+    
+    // Import the seed logic directly
+    const { hash, genSalt } = require('bcryptjs');
+
+    // First ensure roles exist
+    const adminRole = await prisma.role.upsert({
+      where: { name: 'Admin' },
+      update: {},
+      create: { id: 1, name: 'Admin' }
+    });
+
+    const userRole = await prisma.role.upsert({
+      where: { name: 'User' },
+      update: {},
+      create: { id: 2, name: 'User' }
+    });
+
+    const managerRole = await prisma.role.upsert({
+      where: { name: 'Manager' },
+      update: {},
+      create: { id: 3, name: 'Manager' }
+    });
+
+    const viewerRole = await prisma.role.upsert({
+      where: { name: 'Viewer' },
+      update: {},
+      create: { id: 4, name: 'Viewer' }
+    });
+
+    console.log('Roles created/updated');
+
+    // Create default password hash for "Welcome1"
+    const salt = await genSalt(12);
+    const passwordHash = await hash('Welcome1', salt);
+
+    // Create demo users
+    const demoUsers = [
+      {
+        username: 'admin',
+        firstName: 'Admin',
+        lastName: 'User',
+        email: 'admin@demo.com',
+        department: 'IT',
+        roleId: adminRole.id,
+        active: true,
+        passwordHash,
+        salt
+      },
+      {
+        username: 'john.manager',
+        firstName: 'John',
+        lastName: 'Manager',
+        email: 'john.manager@demo.com',
+        department: 'Sales',
+        roleId: managerRole.id,
+        active: true,
+        passwordHash,
+        salt
+      },
+      {
+        username: 'jane.user',
+        firstName: 'Jane',
+        lastName: 'User',
+        email: 'jane.user@demo.com',
+        department: 'Sales',
+        roleId: userRole.id,
+        active: true,
+        passwordHash,
+        salt
+      },
+      {
+        username: 'bob.viewer',
+        firstName: 'Bob',
+        lastName: 'Viewer',
+        email: 'bob.viewer@demo.com',
+        department: 'Support',
+        roleId: viewerRole.id,
+        active: true,
+        passwordHash,
+        salt
+      },
+      {
+        username: 'test.user',
+        firstName: 'Test',
+        lastName: 'User',
+        email: 'test.user@demo.com',
+        department: 'QA',
+        roleId: userRole.id,
+        active: true,
+        passwordHash,
+        salt
       }
+    ];
+
+    for (const userData of demoUsers) {
+      const user = await prisma.user.upsert({
+        where: { 
+          username_archived: {
+            username: userData.username,
+            archived: userData.archived || false
+          }
+        },
+        update: {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          department: userData.department,
+          roleId: userData.roleId,
+          active: userData.active,
+          archived: userData.archived || false,
+          archivedAt: userData.archivedAt || null,
+          passwordHash: userData.passwordHash,
+          salt: userData.salt
+        },
+        create: userData
+      });
+
+      console.log(`Created/updated user: ${user.username} (${user.firstName} ${user.lastName})`);
     }
-    
-    if (!seedFunction) {
-      throw new Error('Could not load seed function. Make sure the project is built or ts-node is available.');
-    }
-    
-    console.log('Running comprehensive database seed...');
-    await seedFunction();
     
     console.log('Deployment seed completed successfully!');
     console.log('All user accounts have password: Welcome1');
