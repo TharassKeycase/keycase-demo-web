@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id             Int       @id @default(autoincrement()) @map("id")
+  username       String    @map("username")
+  firstName      String    @map("first_name")
+  lastName       String?   @map("last_name")
+  department     String?   @map("department")
+  email          String    @map("email")
+  passwordHash   String    @map("password_hash")
+  salt           String    @map("salt")
+  active         Boolean   @default(true) @map("active")
+  passwordChange Boolean   @default(true) @map("password_change")
+  createdDate    DateTime  @default(now()) @map("created_date")
+  lastLoginDate  DateTime? @map("last_login_date")
+  archived       Boolean   @default(false) @map("archived")
+  archivedAt     DateTime? @map("archived_at")
+  roleId         Int       @map("role_id")
+  role           Role      @relation(fields: [roleId], references: [id])
+
+  createdUsers      User[]      @relation("UserCreatedUsers")
+  updatedUsers      User[]      @relation("UserUpdatedUsers")
+  createdRoles      Role[]      @relation("UserCreatedRoles")
+  updatedRoles      Role[]      @relation("UserUpdatedRoles")
+  createdCustomers  Customer[]  @relation("UserCreatedCustomers")
+  updatedCustomers  Customer[]  @relation("UserUpdatedCustomers")
+  createdProducts   Product[]   @relation("UserCreatedProducts")
+  updatedProducts   Product[]   @relation("UserUpdatedProducts")
+  createdOrders     Order[]     @relation("UserCreatedOrders")
+  updatedOrders     Order[]     @relation("UserUpdatedOrders")
+  createdOrderItems OrderItem[] @relation("UserCreatedOrderItems")
+  updatedOrderItems OrderItem[] @relation("UserUpdatedOrderItems")
+
+  createdBy   User? @relation("UserCreatedUsers", fields: [createdById], references: [id])
+  createdById Int?  @map("created_by_id")
+
+  updatedBy   User? @relation("UserUpdatedUsers", fields: [updatedById], references: [id])
+  updatedById Int?  @map("updated_by_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([username, archived])
+  @@unique([email, archived])
+}
+
+model Role {
+  id    Int    @id @default(autoincrement()) @map("id")
+  name  String @unique @map("name")
+  users User[]
+
+  createdBy   User? @relation("UserCreatedRoles", fields: [createdById], references: [id])
+  createdById Int?  @map("created_by_id")
+
+  updatedBy   User? @relation("UserUpdatedRoles", fields: [updatedById], references: [id])
+  updatedById Int?  @map("updated_by_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Customer {
+  id      Int     @id @default(autoincrement()) @map("id")
+  name    String  @map("name")
+  email   String  @unique @map("email")
+  address String  @map("address")
+  city    String  @map("city")
+  country String? @map("country")
+  phone   String  @map("phone")
+  orders  Order[]
+
+  archived   Boolean   @default(false) @map("archived")
+  archivedAt DateTime? @map("archived_at")
+
+  createdBy   User? @relation("UserCreatedCustomers", fields: [createdById], references: [id])
+  createdById Int?  @map("created_by_id")
+
+  updatedBy   User? @relation("UserUpdatedCustomers", fields: [updatedById], references: [id])
+  updatedById Int?  @map("updated_by_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Product {
+  id          Int         @id @default(autoincrement()) @map("id")
+  name        String      @map("name")
+  description String?     @map("description")
+  price       Float       @map("price")
+  orderItems  OrderItem[]
+
+  // Soft delete
+  archived   Boolean   @default(false) @map("archived")
+  archivedAt DateTime? @map("archived_at")
+
+  createdBy   User? @relation("UserCreatedProducts", fields: [createdById], references: [id])
+  createdById Int?  @map("created_by_id")
+
+  updatedBy   User? @relation("UserUpdatedProducts", fields: [updatedById], references: [id])
+  updatedById Int?  @map("updated_by_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([name, archived])
+}
+
+model Order {
+  id         Int         @id @default(autoincrement()) @map("id")
+  customerId Int         @map("customer_id")
+  total      Float       @map("total")
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  orderItems OrderItem[]
+
+  // Soft delete + lifecycle
+  state       String    @default("DRAFT") @map("state")
+  archived    Boolean   @default(false) @map("archived")
+  archivedAt  DateTime? @map("archived_at")
+  cancelledAt DateTime? @map("cancelled_at")
+
+  createdBy   User? @relation("UserCreatedOrders", fields: [createdById], references: [id])
+  createdById Int?  @map("created_by_id")
+
+  updatedBy   User? @relation("UserUpdatedOrders", fields: [updatedById], references: [id])
+  updatedById Int?  @map("updated_by_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model OrderItem {
+  id        Int   @id @default(autoincrement()) @map("id")
+  orderId   Int   @map("order_id")
+  productId Int   @map("product_id")
+  quantity  Int   @map("quantity")
+  price     Float @map("price")
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  createdBy   User? @relation("UserCreatedOrderItems", fields: [createdById], references: [id])
+  createdById Int?  @map("created_by_id")
+
+  updatedBy   User? @relation("UserUpdatedOrderItems", fields: [updatedById], references: [id])
+  updatedById Int?  @map("updated_by_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
