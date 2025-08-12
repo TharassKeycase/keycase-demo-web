@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && prisma db push && next build",
+    "postbuild": "npm run seed:vercel",
     "start": "next start",
     "startServer": "NODE_ENV=production node server.js",
     "lint": "next lint",
@@ -13,7 +14,7 @@
     "seed:deploy": "node prisma/deploy-seed.js",
     "seed:demo": "DEMO_MODE=true node prisma/deploy-seed.js",
     "seed:force": "FORCE_SEED=true node prisma/deploy-seed.js",
-    "postbuild": "npm run db:generate",
+    "seed:vercel": "DEMO_MODE=true node prisma/deploy-seed.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "npm run seed:deploy"
