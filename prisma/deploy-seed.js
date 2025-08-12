@@ -1,7 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
 const path = require('path');
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL || 'file:./prod.db',
+    },
+  },
+});
 
 async function main() {
   console.log('Starting deployment seed process...');
@@ -24,12 +30,6 @@ async function main() {
   
   try {
     console.log('Running basic database seed with users and roles...');
-    
-    // Use the comprehensive CJS seed file which includes error handling
-    const seedModule = require('./seed-comprehensive.cjs');
-    
-    // The seed-comprehensive.cjs file will run its main function when required
-    // But we need to wait for it, so let's import and run directly
     
     // Import the seed logic directly
     const { hash, genSalt } = require('bcryptjs');
