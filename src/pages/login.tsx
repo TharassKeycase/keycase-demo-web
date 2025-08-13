@@ -104,7 +104,7 @@ export default function Login() {
             <Divider sx={{ my: 3 }} />
 
             {error && (
-              <Alert severity="error" sx={{ mb: 3 }}>
+              <Alert id="login-error-alert" severity="error" sx={{ mb: 3 }}>
                 {error}
               </Alert>
             )}

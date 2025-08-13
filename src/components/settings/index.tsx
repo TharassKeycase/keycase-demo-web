@@ -87,7 +87,7 @@ const SettingsPage = () => {
             </Typography>
           </Box>
 
-          <Alert severity="info" sx={{ mb: 3 }}>
+          <Alert id="settings-info-alert" severity="info" sx={{ mb: 3 }}>
             This is a QA demo environment. You can reset all data to default test values.
           </Alert>
 
@@ -109,7 +109,7 @@ const SettingsPage = () => {
             ))}
           </List>
 
-          <Alert severity="warning" sx={{ mb: 3 }}>
+          <Alert id="settings-warning-alert" severity="warning" sx={{ mb: 3 }}>
             <Typography variant="body2">
               <strong>⚠️ Warning:</strong> This will permanently delete ALL existing data and replace it with test data. 
               All users will have the password: <strong>Welcome1</strong>
@@ -170,7 +170,7 @@ const SettingsPage = () => {
               </ListItem>
             </List>
 
-            <Alert severity="success" sx={{ mt: 2 }}>
+            <Alert id="settings-success-alert" severity="success" sx={{ mt: 2 }}>
               <Typography variant="body2">
                 <strong>Login Credentials:</strong> All users have password: <strong>{resetResult.data?.defaultPassword}</strong>
                 <br />

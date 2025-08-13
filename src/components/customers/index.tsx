@@ -110,7 +110,7 @@ const CustomerPage = () => {
         </Button>
       )}
 
-      {error && <Alert severity="error" onClose={() => handleClearError()}>{error instanceof Error ? error.message : "Error"}</Alert>}
+      {error && <Alert id="customers-error-alert" severity="error" onClose={() => handleClearError()}>{error instanceof Error ? error.message : "Error"}</Alert>}
 
       <Loading open={loading} />
       {canEdit && showAddCustomer && (

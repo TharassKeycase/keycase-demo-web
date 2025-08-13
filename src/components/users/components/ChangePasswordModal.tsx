@@ -93,7 +93,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
 
       <DialogContent>
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert id="users-change-password-error-alert" severity="error" sx={{ mb: 2 }}>
             {error}
           </Alert>
         )}

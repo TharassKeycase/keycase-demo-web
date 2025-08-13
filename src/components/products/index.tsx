@@ -95,7 +95,7 @@ const ProductPage = () => {
         </Button>
       )}
 
-      {error && <Alert severity="error" sx={{ marginBottom: "10px" }} onClose={handleClearError}>Error: {error instanceof Error ? error.message : "Error"}</Alert>}
+      {error && <Alert id="products-error-alert" severity="error" sx={{ marginBottom: "10px" }} onClose={handleClearError}>Error: {error instanceof Error ? error.message : "Error"}</Alert>}
 
       <Loading open={loading} />
       {canEdit && showAddProduct && <ProductCrud product={product ? product : null} onEdit={handleUpdateProduct} onAdd={handleAddProduct} onClose={ ()=> setShowAddProduct(false)} />}

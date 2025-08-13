@@ -142,7 +142,7 @@ const OrderPage = ({
       </Box>
 
       {selectedOrder && selectedCustomer && (
-        <Alert severity="info" sx={{ mb: 3 }}>
+        <Alert id="orders-editing-info-alert" severity="info" sx={{ mb: 3 }}>
           <Typography variant="body2">
             Editing order for <strong>{selectedCustomer.name}</strong> (ID: {selectedCustomer.id})
           </Typography>

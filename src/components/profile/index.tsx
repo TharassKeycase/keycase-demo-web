@@ -115,7 +115,7 @@ const ProfilePage = () => {
   if (!isAuthenticated) {
     return (
       <Container maxWidth="md">
-        <Alert severity="error">Please log in to view your profile.</Alert>
+        <Alert id="profile-login-required-alert" severity="error">Please log in to view your profile.</Alert>
       </Container>
     );
   }
@@ -133,7 +133,7 @@ const ProfilePage = () => {
         </Typography>
 
         {(error || localError) && (
-          <Alert severity="error" sx={{ mb: 2 }} onClose={handleClearError}>
+          <Alert id="profile-error-alert" severity="error" sx={{ mb: 2 }} onClose={handleClearError}>
             {localError || (error instanceof Error ? error.message : "Error loading profile")}
           </Alert>
         )}

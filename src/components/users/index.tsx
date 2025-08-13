@@ -64,7 +64,7 @@ const UserPage = () => {
       }}
     >
       {!canManageUsers && (
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <Alert id="users-permissions-info-alert" severity="info" sx={{ mb: 2 }}>
           {isViewer ? "You have read-only access. You can view but not modify users." : "You need Admin or Manager privileges to manage users. You can only view the user list."}
         </Alert>
       )}
