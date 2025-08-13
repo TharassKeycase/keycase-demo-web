@@ -160,7 +160,7 @@ const OrderPage = ({
             </Box>
             <Autocomplete
               sx={{ maxWidth: 400 }}
-              id="customerId"
+              id="order-customer-select"
               options={customers}
               value={selectedCustomer}
               getOptionLabel={(option) => `${option.name} (ID: ${option.id})`}
@@ -168,6 +168,7 @@ const OrderPage = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  id="order-customer-input"
                   label="Choose customer for this order"
                   variant="outlined"
                   required
@@ -192,7 +193,7 @@ const OrderPage = ({
               
               <Stack spacing={3}>
                 <Autocomplete
-                  id="productSelect"
+                  id="order-product-select"
                   value={selectedProduct}
                   options={products}
                   getOptionLabel={(option) => `${option.name} - $${option.price}`}
@@ -200,6 +201,7 @@ const OrderPage = ({
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      id="order-product-input"
                       label="Select Product"
                       variant="outlined"
                       required
@@ -210,6 +212,7 @@ const OrderPage = ({
                 
                 <Box sx={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
                   <TextField
+                    id="order-quantity-input"
                     value={quantity || ""}
                     label="Quantity"
                     type="number"
@@ -241,6 +244,7 @@ const OrderPage = ({
                 </Box>
                 
                 <Button 
+                  id="add-to-order-btn"
                   variant="contained" 
                   onClick={handleAddItem}
                   disabled={!selectedProduct || quantity <= 0}
@@ -297,9 +301,9 @@ const OrderPage = ({
               ) : (
                 <Box>
                   <TableContainer component={Paper} elevation={1}>
-                    <Table>
+                    <Table id="order-items-table">
                       <TableHead>
-                        <TableRow sx={{ backgroundColor: "grey.50" }}>
+                        <TableRow id="order-items-table-header" sx={{ backgroundColor: "grey.50" }}>
                           <TableCell sx={{ fontWeight: "bold" }}>Product</TableCell>
                           <TableCell sx={{ fontWeight: "bold", width: 120 }}>Quantity</TableCell>
                           <TableCell sx={{ fontWeight: "bold", width: 100 }}>Unit Price</TableCell>
@@ -310,13 +314,14 @@ const OrderPage = ({
                       <TableBody>
                         {orderItems.map((orderItem, index) => (
                           <TableRow 
+                            id={`order-item-row-${orderItem.productId}`}
                             key={index}
                             sx={{ 
                               "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
                               "&:hover": { backgroundColor: "#f0f0f0" }
                             }}
                           >
-                            <TableCell>
+                            <TableCell id={`order-item-product-${orderItem.productId}`}>
                               <Typography variant="body1" sx={{ fontWeight: 500 }}>
                                 {orderItem.productName}
                               </Typography>
@@ -326,6 +331,7 @@ const OrderPage = ({
                             </TableCell>
                             <TableCell>
                               <TextField
+                                id={`order-item-quantity-${orderItem.id}`}
                                 value={orderItem.quantity}
                                 type="number"
                                 variant="outlined"
@@ -340,12 +346,12 @@ const OrderPage = ({
                                 sx={{ width: 80 }}
                               />
                             </TableCell>
-                            <TableCell>
+                            <TableCell id={`order-item-price-${orderItem.productId}`}>
                               <Typography variant="body2">
                                 ${orderItem.price?.toFixed(2) || '0.00'}
                               </Typography>
                             </TableCell>
-                            <TableCell>
+                            <TableCell id={`order-item-total-${orderItem.productId}`}>
                               <Typography variant="body1" sx={{ fontWeight: 600 }}>
                                 ${orderItem.price && orderItem.quantity ? 
                                   (orderItem.price * orderItem.quantity).toFixed(2) : '0.00'
@@ -354,6 +360,7 @@ const OrderPage = ({
                             </TableCell>
                             <TableCell>
                               <IconButton
+                                id={`delete-order-item-${orderItem.productId}`}
                                 onClick={() => handleDeleteItem(orderItem.productId)}
                                 color="error"
                                 size="small"
@@ -380,6 +387,7 @@ const OrderPage = ({
                     </Box>
                     
                     <Button
+                      id="submit-order-btn"
                       variant="contained"
                       color="success"
                       size="large"

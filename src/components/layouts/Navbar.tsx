@@ -51,6 +51,7 @@ const ProjectNavbar = () => {
         }}
       >
         <Typography
+          id="navbar-logo"
           variant="h6"
           color="primary"
           fontSize="20px"
@@ -79,6 +80,7 @@ const ProjectNavbar = () => {
             </Box>
             
             <Button
+              id="navbar-logout-btn"
               variant="outlined"
               size="small"
               startIcon={<Logout />}

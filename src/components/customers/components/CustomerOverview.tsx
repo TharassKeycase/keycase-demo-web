@@ -53,9 +53,9 @@ function CustomerTable({
         
         <Paper elevation={2}>
           <TableContainer component={Paper}>
-            <Table>
+            <Table id="customers-table">
             <TableHead>
-              <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableRow id="customers-table-header" sx={{ backgroundColor: "#f5f5f5" }}>
                 <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
@@ -69,22 +69,24 @@ function CustomerTable({
             <TableBody>
               {customers.map((customer, index) => (
                 <TableRow 
+                  id={`customer-row-${customer.id}`}
                   key={customer.id}
                   sx={{ 
                     "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
                     "&:hover": { backgroundColor: "#f0f0f0" }
                   }}
                 >
-                  <TableCell>{customer.id}</TableCell>
-                  <TableCell sx={{ fontWeight: "500" }}>{customer.name}</TableCell>
-                  <TableCell>{customer.email}</TableCell>
-                  <TableCell>{customer.address}</TableCell>
-                  <TableCell>{customer.city}</TableCell>
-                  <TableCell>{customer.country}</TableCell>
-                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell id={`customer-id-${customer.id}`}>{customer.id}</TableCell>
+                  <TableCell id={`customer-name-${customer.id}`} sx={{ fontWeight: "500" }}>{customer.name}</TableCell>
+                  <TableCell id={`customer-email-${customer.id}`}>{customer.email}</TableCell>
+                  <TableCell id={`customer-address-${customer.id}`}>{customer.address}</TableCell>
+                  <TableCell id={`customer-city-${customer.id}`}>{customer.city}</TableCell>
+                  <TableCell id={`customer-country-${customer.id}`}>{customer.country}</TableCell>
+                  <TableCell id={`customer-phone-${customer.id}`}>{customer.phone}</TableCell>
                   <TableCell>
                     {onEdit && (
                       <Button
+                        id={`edit-customer-${customer.id}`}
                         variant="contained"
                         color="primary"
                         size="small"
@@ -101,6 +103,7 @@ function CustomerTable({
                     )}
                     {onDelete && (
                       <Button
+                        id={`delete-customer-${customer.id}`}
                         variant="outlined"
                         color="error"
                         size="small"
@@ -194,6 +197,7 @@ function CustomerTable({
           </Typography>
           {onAdd && !isFiltering && (
             <Button
+              id="add-first-customer-btn"
               variant="contained"
               color="primary"
               size="large"
@@ -211,6 +215,7 @@ function CustomerTable({
           )}
           {isFiltering && onSearchChange && (
             <Button
+              id="clear-search-btn"
               variant="outlined"
               color="primary"
               size="large"

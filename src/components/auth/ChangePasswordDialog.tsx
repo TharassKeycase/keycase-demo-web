@@ -52,6 +52,7 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
         </Tooltip>
       </DialogTitle>
       <IconButton
+        id="change-password-close-btn"
         aria-label="close"
         onClick={onClose}
         sx={{
@@ -68,7 +69,7 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
             <InputLabel htmlFor="newPasswordLabel">New Password</InputLabel>
             <OutlinedInput
               sx={{ width: 300 }}
-              id="newPassword"
+              id="change-password-new-input"
               // type={showPassword ? "text" : "password"}
               // value={newPasswordValue}
               // onChange={newPasswordChangeHandler}
@@ -101,7 +102,7 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
             <InputLabel htmlFor="newPasswordConfirmLabel">New Password Confirm</InputLabel>
             <OutlinedInput
               sx={{ width: 300 }}
-              id="newPasswordConfirm"
+              id="change-password-confirm-input"
               type={showPassword ? "text" : "password"}
               // value={newPasswordConfirmValue}
               // onChange={newPasswordConfirmChangeHandler}
@@ -131,6 +132,7 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
           </FormControl>
         </FormGroup>
         <Button
+          id="change-password-submit-btn"
           sx={{ width: 300, height: 50, pb: 2, mb: 2, ml: 0 }}
           variant="contained"
           disabled={!valid}
@@ -141,7 +143,7 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
       </DialogContent>
 
       {error.isSubmitted && !error.isValid && (
-        <Alert severity="error">
+        <Alert id="change-password-error-alert" severity="error">
           Error — <strong>{error.errorMsg}</strong>
         </Alert>
       )}

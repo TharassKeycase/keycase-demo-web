@@ -137,7 +137,7 @@ const Sidebar = () => {
             </Typography>
           </Button>
         )}
-        <IconButton onClick={handleExpand} color="primary" aria-label={isExpand ? "Collapse sidebar" : "Expand sidebar"}>
+        <IconButton id="sidebar-toggle-btn" onClick={handleExpand} color="primary" aria-label={isExpand ? "Collapse sidebar" : "Expand sidebar"}>
           {isExpand ? <ArrowBackIcon /> : <ArrowForwardIcon />}
         </IconButton>
       </div>
@@ -158,6 +158,7 @@ const Sidebar = () => {
               return (
                 <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
                   <ListItemButton
+                    id={`sidebar-nav-${item.name}`}
                     onClick={(event) => handleSelectListItem(item.route, event)}
                     sx={{
                       minHeight: 64,
@@ -202,6 +203,7 @@ const Sidebar = () => {
             <Divider sx={{ mx: 2, mb: 1 }} />
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
+                id="sidebar-about-btn"
                 onClick={handleAboutOpen}
                 sx={{
                   minHeight: 48,
@@ -309,7 +311,7 @@ SOFTWARE.`}
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAboutClose} variant="contained">
+          <Button id="about-dialog-close-btn" onClick={handleAboutClose} variant="contained">
             Close
           </Button>
         </DialogActions>

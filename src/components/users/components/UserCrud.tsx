@@ -90,7 +90,7 @@ const UserCrud: React.FC<UserFormProps> = ({
             margin="normal"
             required
             fullWidth
-            id="username"
+            id="user-username"
             label="Username"
             autoComplete="username"
             autoFocus
@@ -110,7 +110,7 @@ const UserCrud: React.FC<UserFormProps> = ({
             margin="normal"
             required
             fullWidth
-            id="firstName"
+            id="user-firstName"
             label="First Name"
             autoComplete="given-name"
             {...register("firstName", { required: "First name is required" })}
@@ -122,7 +122,7 @@ const UserCrud: React.FC<UserFormProps> = ({
           <TextField
             margin="normal"
             fullWidth
-            id="lastName"
+            id="user-lastName"
             label="Last Name"
             autoComplete="family-name"
             {...register("lastName")}
@@ -133,7 +133,7 @@ const UserCrud: React.FC<UserFormProps> = ({
             margin="normal"
             required
             fullWidth
-            id="email"
+            id="user-email"
             label="Email Address"
             type="email"
             autoComplete="email"
@@ -152,7 +152,7 @@ const UserCrud: React.FC<UserFormProps> = ({
           <TextField
             margin="normal"
             fullWidth
-            id="department"
+            id="user-department"
             label="Department"
             {...register("department")}
             defaultValue={user?.department}
@@ -163,7 +163,7 @@ const UserCrud: React.FC<UserFormProps> = ({
               margin="normal"
               required
               fullWidth
-              id="password"
+              id="user-password"
               label="Password"
               type="password"
               autoComplete="new-password"
@@ -187,6 +187,7 @@ const UserCrud: React.FC<UserFormProps> = ({
               rules={{ required: "Role is required" }}
               render={({ field }) => (
                 <Select
+                  id="user-role-select"
                   labelId="role-select-label"
                   label="Role"
                   error={!!errors.roleId}
@@ -209,6 +210,7 @@ const UserCrud: React.FC<UserFormProps> = ({
                 control={control}
                 render={({ field: { value, onChange } }) => (
                   <Switch
+                    id="user-active-switch"
                     checked={value || false}
                     onChange={(e) => onChange(e.target.checked)}
                   />
@@ -221,6 +223,7 @@ const UserCrud: React.FC<UserFormProps> = ({
 
           <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
             <Button
+              id="user-submit-btn"
               type="submit"
               variant="contained"
               fullWidth
@@ -229,6 +232,7 @@ const UserCrud: React.FC<UserFormProps> = ({
               {user ? "Update" : "Create"} User
             </Button>
             <Button
+              id="user-cancel-btn"
               variant="outlined"
               fullWidth
               onClick={onClose}

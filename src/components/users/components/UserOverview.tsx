@@ -30,9 +30,9 @@ function UserTable({
     return (
       <Paper elevation={2}>
         <TableContainer component={Paper}>
-          <Table>
+          <Table id="users-table">
             <TableHead>
-              <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableRow id="users-table-header" sx={{ backgroundColor: "#f5f5f5" }}>
                 <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Role</TableCell>
@@ -47,21 +47,22 @@ function UserTable({
             <TableBody>
               {users.map((user, index) => (
                 <TableRow 
+                  id={`user-row-${user.id}`}
                   key={user.id}
                   sx={{ 
                     "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
                     "&:hover": { backgroundColor: "#f0f0f0" }
                   }}
                 >
-                  <TableCell>{user.id}</TableCell>
-                  <TableCell sx={{ fontWeight: "500" }}>{user.username}</TableCell>
-                  <TableCell sx={{ fontWeight: "500" }}>{user.role?.name || 'N/A'}</TableCell>
-                  <TableCell sx={{ fontWeight: "500" }}>
+                  <TableCell id={`user-id-${user.id}`}>{user.id}</TableCell>
+                  <TableCell id={`user-username-${user.id}`} sx={{ fontWeight: "500" }}>{user.username}</TableCell>
+                  <TableCell id={`user-role-${user.id}`} sx={{ fontWeight: "500" }}>{user.role?.name || 'N/A'}</TableCell>
+                  <TableCell id={`user-name-${user.id}`} sx={{ fontWeight: "500" }}>
                     {user.firstName} {user.lastName}
                   </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.department || 'N/A'}</TableCell>
-                  <TableCell>
+                  <TableCell id={`user-email-${user.id}`}>{user.email}</TableCell>
+                  <TableCell id={`user-department-${user.id}`}>{user.department || 'N/A'}</TableCell>
+                  <TableCell id={`user-status-${user.id}`}>
                     <Chip
                       label={user.archived ? 'Archived' : (user.active ? 'Active' : 'Inactive')}
                       color={user.archived ? 'error' : (user.active ? 'success' : 'warning')}
@@ -69,13 +70,14 @@ function UserTable({
                       variant="filled"
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell id={`user-created-date-${user.id}`}>
                     {user.createdDate ? new Date(user.createdDate).toLocaleDateString() : 'N/A'}
                   </TableCell>
                   <TableCell>
                     {canManage ? (
                       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                         <Button
+                          id={`edit-user-${user.id}`}
                           variant="contained"
                           color="primary"
                           size="small"
@@ -89,6 +91,7 @@ function UserTable({
                         </Button>
                         {onChangePassword && (
                           <Button
+                            id={`change-password-user-${user.id}`}
                             variant="outlined"
                             color="secondary"
                             size="small"
@@ -101,6 +104,7 @@ function UserTable({
                           </Button>
                         )}
                         <Button
+                          id={`archive-user-${user.id}`}
                           variant="outlined"
                           color="error"
                           size="small"
@@ -167,6 +171,7 @@ function UserTable({
         </Typography>
         {onAdd && canManage && (
           <Button
+            id="add-first-user-btn"
             variant="contained"
             color="primary"
             size="large"

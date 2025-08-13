@@ -53,9 +53,9 @@ function OrderTable({
         
         <Paper elevation={2}>
           <TableContainer component={Paper}>
-            <Table>
+            <Table id="orders-table">
             <TableHead>
-              <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableRow id="orders-table-header" sx={{ backgroundColor: "#f5f5f5" }}>
                 <TableCell sx={{ fontWeight: "bold" }}>Order ID</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Customer Name</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Customer ID</TableCell>
@@ -66,17 +66,18 @@ function OrderTable({
             <TableBody>
               {orders.map((order, index) => (
                 <TableRow 
+                  id={`order-row-${order.id}`}
                   key={order.id}
                   sx={{ 
                     "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
                     "&:hover": { backgroundColor: "#f0f0f0" }
                   }}
                 >
-                  <TableCell sx={{ fontWeight: "600", color: "#1976d2" }}>
+                  <TableCell id={`order-id-${order.id}`} sx={{ fontWeight: "600", color: "#1976d2" }}>
                     #{order.id}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "500" }}>{order.customer.name}</TableCell>
-                  <TableCell>
+                  <TableCell id={`order-customer-name-${order.id}`} sx={{ fontWeight: "500" }}>{order.customer.name}</TableCell>
+                  <TableCell id={`order-customer-id-${order.id}`}>
                     <Chip 
                       label={`#${order.customer.id}`} 
                       size="small" 
@@ -84,13 +85,14 @@ function OrderTable({
                       sx={{ fontSize: "0.75rem" }}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "600", color: "#2e7d32", fontSize: "1.1rem" }}>
+                  <TableCell id={`order-total-${order.id}`} sx={{ fontWeight: "600", color: "#2e7d32", fontSize: "1.1rem" }}>
                     ${order.total?.toFixed(2) || "0.00"}
                   </TableCell>
 
                   <TableCell>
                     {onEdit && (
                       <Button
+                        id={`edit-order-${order.id}`}
                         variant="contained"
                         color="primary"
                         size="small"                                           
@@ -107,6 +109,7 @@ function OrderTable({
                     )}
                     {onDelete && (
                       <Button
+                        id={`delete-order-${order.id}`}
                         variant="outlined"
                         color="error"
                         size="small"
@@ -200,6 +203,7 @@ function OrderTable({
           </Typography>
           {onAdd && !isFiltering && (
             <Button
+              id="add-first-order-btn"
               variant="contained"
               color="primary"
               size="large"
@@ -217,6 +221,7 @@ function OrderTable({
           )}
           {isFiltering && onSearchChange && (
             <Button
+              id="clear-search-orders-btn"
               variant="outlined"
               color="primary"
               size="large"

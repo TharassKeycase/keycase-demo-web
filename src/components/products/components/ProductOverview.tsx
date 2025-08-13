@@ -52,9 +52,9 @@ function productTable({
         
         <Paper elevation={2}>
           <TableContainer component={Paper}>
-            <Table>
+            <Table id="products-table">
             <TableHead>
-              <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableRow id="products-table-header" sx={{ backgroundColor: "#f5f5f5" }}>
                 <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
@@ -65,22 +65,24 @@ function productTable({
             <TableBody>
               {products.map((product, index) => (
                 <TableRow 
+                  id={`product-row-${product.id}`}
                   key={product.id}
                   sx={{ 
                     "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
                     "&:hover": { backgroundColor: "#f0f0f0" }
                   }}
                 >
-                   <TableCell>{product.id}</TableCell>
-                  <TableCell sx={{ fontWeight: "500" }}>{product.name}</TableCell>
-                  <TableCell sx={{ maxWidth: "200px" }}>{product.description}</TableCell>
-                  <TableCell sx={{ fontWeight: "600", color: "#1976d2" }}>
+                   <TableCell id={`product-id-${product.id}`}>{product.id}</TableCell>
+                  <TableCell id={`product-name-${product.id}`} sx={{ fontWeight: "500" }}>{product.name}</TableCell>
+                  <TableCell id={`product-description-${product.id}`} sx={{ maxWidth: "200px" }}>{product.description}</TableCell>
+                  <TableCell id={`product-price-${product.id}`} sx={{ fontWeight: "600", color: "#1976d2" }}>
                     ${product.price?.toFixed(2) || "0.00"}
                   </TableCell>
                 
                   <TableCell>
                     {onEdit && (
                       <Button
+                        id={`edit-product-${product.id}`}
                         variant="contained"
                         color="primary"
                         size="small"
@@ -97,6 +99,7 @@ function productTable({
                     )}
                     {onDelete && (
                       <Button
+                        id={`delete-product-${product.id}`}
                         variant="outlined"
                         color="error"
                         size="small"
@@ -190,6 +193,7 @@ function productTable({
           </Typography>
           {onAdd && !isFiltering && (
             <Button
+              id="add-first-product-btn"
               variant="contained"
               color="primary"
               size="large"
@@ -207,6 +211,7 @@ function productTable({
           )}
           {isFiltering && onSearchChange && (
             <Button
+              id="clear-search-products-btn"
               variant="outlined"
               color="primary"
               size="large"

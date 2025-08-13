@@ -82,6 +82,7 @@ const ProductPage = () => {
     >
       {canEdit && (
         <Button
+          id="add-product-button"
           variant="contained"
           sx={{
             marginBottom: "10px",

@@ -96,6 +96,7 @@ const OrderPage = () => {
     >
       {canEdit && (
         <Button
+          id="add-order-button"
           variant="contained"
           sx={{
             marginBottom: "10px",

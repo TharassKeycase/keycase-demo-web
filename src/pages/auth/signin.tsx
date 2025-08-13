@@ -132,6 +132,7 @@ export default function SignIn() {
               disabled={isLoginStarted}
             />
             <Button
+              id="signin-submit-btn"
               type="submit"
               fullWidth
               variant="contained"
@@ -141,7 +142,7 @@ export default function SignIn() {
               Sign In
             </Button>
             {loginError ? (
-              <Alert severity="error">
+              <Alert id="signin-error-alert" severity="error">
                 Authentication failed, please enter correct credentials.
               </Alert>
             ) : (
@@ -149,8 +150,8 @@ export default function SignIn() {
             )}
           </Box>
         </Box>
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-          <Alert severity="success" sx={{ width: "100%" }}>
+        <Snackbar id="password-changed-snackbar" open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+          <Alert id="password-changed-alert" severity="success" sx={{ width: "100%" }}>
             Password has changed, please login with new Password!
           </Alert>
         </Snackbar>

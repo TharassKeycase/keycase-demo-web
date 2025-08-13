@@ -42,16 +42,18 @@ const DashboardCard = ({ title, icon, description, route, count, onClick }: {
   count?: number;
   onClick: () => void;
 }) => (
-  <Card sx={{ 
-    height: '100%', 
-    display: 'flex', 
-    flexDirection: 'column',
-    transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-    '&:hover': {
-      transform: 'translateY(-4px)',
-      boxShadow: 3
-    }
-  }}>
+  <Card 
+    id={`dashboard-card-${title.toLowerCase()}`}
+    sx={{ 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column',
+      transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+      '&:hover': {
+        transform: 'translateY(-4px)',
+        boxShadow: 3
+      }
+    }}>
     <CardContent sx={{ flex: 1 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -62,6 +64,7 @@ const DashboardCard = ({ title, icon, description, route, count, onClick }: {
         </Box>
         {count !== undefined && (
           <Chip 
+            id={`dashboard-count-${title.toLowerCase()}`}
             label={count} 
             color="primary" 
             size="small"
@@ -74,7 +77,12 @@ const DashboardCard = ({ title, icon, description, route, count, onClick }: {
       </Typography>
     </CardContent>
     <CardActions>
-      <Button size="small" onClick={onClick} sx={{ width: '100%' }}>
+      <Button 
+        id={`dashboard-manage-${title.toLowerCase()}-btn`}
+        size="small" 
+        onClick={onClick} 
+        sx={{ width: '100%' }}
+      >
         Manage {title}
       </Button>
     </CardActions>
@@ -183,7 +191,7 @@ const Index = () => {
         ) : stats ? (
           <Grid container spacing={3} sx={{ mt: 1 }}>
             <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ bgcolor: 'primary.light', color: 'primary.contrastText' }}>
+              <Card id="dashboard-total-revenue-card" sx={{ bgcolor: 'primary.light', color: 'primary.contrastText' }}>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box>
@@ -201,7 +209,7 @@ const Index = () => {
             </Grid>
             
             <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ bgcolor: 'success.light', color: 'success.contrastText' }}>
+              <Card id="dashboard-recent-orders-card" sx={{ bgcolor: 'success.light', color: 'success.contrastText' }}>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box>
@@ -219,7 +227,7 @@ const Index = () => {
             </Grid>
             
             <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ bgcolor: 'info.light', color: 'info.contrastText' }}>
+              <Card id="dashboard-avg-order-value-card" sx={{ bgcolor: 'info.light', color: 'info.contrastText' }}>
                 <CardContent>
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box>

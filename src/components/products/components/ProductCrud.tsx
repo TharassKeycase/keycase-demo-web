@@ -63,7 +63,7 @@ const ProductCrud: React.FC<ProductFormProps> = ({
             margin="normal"
             required
             fullWidth
-            id="name"
+            id="product-name"
             label="Name"
             autoComplete="name"
             autoFocus
@@ -77,7 +77,7 @@ const ProductCrud: React.FC<ProductFormProps> = ({
             margin="normal"
             required
             fullWidth
-            id="description"
+            id="product-description"
             label="Description"
             autoComplete="address"
             {...register("description", { required: true })}
@@ -89,7 +89,7 @@ const ProductCrud: React.FC<ProductFormProps> = ({
             margin="normal"
             required
             fullWidth
-            id="price"
+            id="product-price"
             label="Price"
             autoComplete="price"
             type="number"
@@ -99,6 +99,7 @@ const ProductCrud: React.FC<ProductFormProps> = ({
             defaultValue={product?.price}
           />         
           <Button
+            id="product-submit-btn"
             type="submit"
             variant="contained"
             fullWidth

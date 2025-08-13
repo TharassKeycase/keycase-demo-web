@@ -76,6 +76,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
       }}
     >
       <TextField
+        id="search-filter-input"
         size="small"
         placeholder={searchPlaceholder}
         value={searchTerm}
@@ -89,7 +90,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
           ),
           endAdornment: searchTerm && (
             <InputAdornment position="end">
-              <IconButton size="small" onClick={handleClearSearch}>
+              <IconButton id="search-clear-btn" size="small" onClick={handleClearSearch}>
                 <Clear fontSize="small" />
               </IconButton>
             </InputAdornment>
@@ -100,6 +101,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
       <FormControl size="small" sx={{ minWidth: 150 }}>
         <InputLabel id="sort-by-label">Sort By</InputLabel>
         <Select
+          id="sort-by-select"
           labelId="sort-by-label"
           value={sortBy}
           label="Sort By"
@@ -114,6 +116,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
       </FormControl>
 
       <IconButton
+        id="sort-order-toggle-btn"
         onClick={handleSortOrderToggle}
         color="primary"
         sx={{

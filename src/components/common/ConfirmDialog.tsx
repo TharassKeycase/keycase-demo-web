@@ -14,7 +14,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ open, onClose, message, o
     <Dialog open={open} maxWidth="sm">
       <DialogTitle display="flex" justifyContent="space-between" alignItems="center">
         Confirm the action
-        <IconButton onClick={onClose}>
+        <IconButton id="confirm-dialog-close-btn" onClick={onClose}>
           <Close />
         </IconButton>
       </DialogTitle>
@@ -22,10 +22,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ open, onClose, message, o
         <Typography>{message}</Typography>
       </DialogContent>
       <DialogActions sx={{ paddingRight: "24px" }}>
-        <Button className="w-[92px]" color="primary" variant="outlined" onClick={onClose}>
+        <Button id="confirm-dialog-cancel-btn" className="w-[92px]" color="primary" variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button className="w-[92px]" color="secondary" variant="contained" onClick={onConfirm}>
+        <Button id="confirm-dialog-confirm-btn" className="w-[92px]" color="secondary" variant="contained" onClick={onConfirm}>
           Confirm
         </Button>
       </DialogActions>

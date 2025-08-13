@@ -65,6 +65,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
         <FormControl size="small" sx={{ minWidth: 100 }}>
           <InputLabel id="rows-per-page-label">Rows</InputLabel>
           <Select
+            id="pagination-rows-select"
             labelId="rows-per-page-label"
             value={limit}
             label="Rows"
@@ -87,6 +88,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           Page {page} of {totalPages}
         </Typography>
         <IconButton
+          id="pagination-first-page-btn"
           onClick={handleFirstPageButtonClick}
           disabled={page === 1}
           aria-label="first page"
@@ -94,6 +96,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           <FirstPage />
         </IconButton>
         <IconButton
+          id="pagination-prev-page-btn"
           onClick={handleBackButtonClick}
           disabled={page === 1}
           aria-label="previous page"
@@ -101,6 +104,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           <KeyboardArrowLeft />
         </IconButton>
         <IconButton
+          id="pagination-next-page-btn"
           onClick={handleNextButtonClick}
           disabled={page === totalPages}
           aria-label="next page"
@@ -108,6 +112,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
           <KeyboardArrowRight />
         </IconButton>
         <IconButton
+          id="pagination-last-page-btn"
           onClick={handleLastPageButtonClick}
           disabled={page === totalPages}
           aria-label="last page"
