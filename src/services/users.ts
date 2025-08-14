@@ -1,6 +1,6 @@
 import { ValidationError } from "@/lib/errors";
 import prisma from "@/lib/prisma";
-import { User, createdBy } from "@/types/user";
+import { User, createdBy, SignupRequest } from "@/types/user";
 import { Prisma } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -69,7 +69,7 @@ export const getUser = async (id: number): Promise<User> => {
     return transformUser(user);
 };
 
-export const createUser = async (userData: User, userId: number): Promise<User> => {
+export const createUser = async (userData: User, userId?: number): Promise<User> => {
     // Validate required fields
     if (!userData.username || !userData.email || !userData.password || !userData.firstName || !userData.roleId) {
         throw new ValidationError(1001, 400, "Username, email, password, first name, and role are required");
@@ -121,7 +121,7 @@ export const createUser = async (userData: User, userId: number): Promise<User> 
             active: userData.active ?? true,
             passwordChange: userData.passwordChange ?? false,
             roleId: userData.roleId,
-            createdById: userId,
+           ...(userId ? { createdById: userId } : {}),
         },
         ...includeRelations,
     });
@@ -340,3 +340,54 @@ export const restoreUser = async (id: number, userId: number): Promise<User> => 
     
     return transformUser(restoredUser);
 };
+
+
+export const signup = async (signupData: SignupRequest): Promise<User> => {
+
+      const { username, firstname, lastname, email } = signupData;
+
+      // Check if username already exists
+      const existingUsername = await prisma.user.findFirst({
+        where: { username },
+      });
+
+      if (existingUsername) {
+        throw new ValidationError(1001, 409, "Username already exists");
+      }
+  
+      // Check if email already exists
+      const existingEmail = await prisma.user.findFirst({
+        where: { email },
+      });
+  
+      if (existingEmail) {
+        throw new ValidationError(1001, 409, "Email already exists");  
+    }
+
+    //getRoleId with role name "Admin"
+    const role = await prisma.role.findFirst({
+      where: { name: "Admin" },
+    });
+
+    if (!role) {
+      throw new ValidationError(1001, 404, "Admin role not found");
+    }
+
+    
+
+    const userData: User = {
+      username,
+      firstName: firstname,
+      lastName: lastname,
+      email,
+      password: "Welcome1",
+      roleId: role.id,
+    };
+
+
+    const newUser = await createUser(userData);
+  
+  
+    return newUser;
+};
+

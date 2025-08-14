@@ -69,3 +69,11 @@ export interface createdBy {
   email: string;
   role: string;
 }
+
+
+export type SignupRequest = {
+  username: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+};

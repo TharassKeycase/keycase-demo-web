@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import {
   Alert,
   Box,
@@ -19,6 +20,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
+import { useSignup } from "@/contexts/SignupContext";
 
 interface LoginFormData {
   username: string;
@@ -27,6 +29,7 @@ interface LoginFormData {
 
 export default function Login() {
   const router = useRouter();
+  const { openSignup } = useSignup();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -205,6 +208,33 @@ export default function Login() {
               >
                 Demo credentials: Use any username from the database
               </Typography>
+
+              <Divider sx={{ my: 2 }} />
+
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2 }}>
+                <Button
+                  id="create-account-button"
+                  variant="text"
+                  color="primary"
+                  onClick={openSignup}
+                  disabled={loading}
+                  sx={{ textTransform: 'none' }}
+                >
+                  No credentials? Create one
+                </Button>
+                
+                <Link href="/docs" passHref style={{ textDecoration: 'none' }}>
+                  <Button
+                    id="docs-link-button"
+                    variant="text"
+                    color="secondary"
+                    disabled={loading}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    View Documentation
+                  </Button>
+                </Link>
+              </Box>
             </Box>
           </CardContent>
         </Card>

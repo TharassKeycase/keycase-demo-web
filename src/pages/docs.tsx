@@ -47,7 +47,3 @@ function ApiDocs() {
 }
 
 export default ApiDocs;
-
-ApiDocs.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
-
-export const getServerSideProps = requireAuth;

@@ -20,6 +20,8 @@ import { OrderProvider } from "@/provider/OrderProvider";
 import { ProductProvider } from "@/provider/ProductProvider";
 import { HomeProvider } from "@/provider/HomeProvider";
 import { UserProvider } from "@/provider/UserProvider";
+import { SignupProvider } from "@/contexts/SignupContext";
+import { SignupDrawer } from "@/components/auth/SignupDrawer";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -71,15 +73,18 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLa
         <CssBaseline />
         <HomeProvider>
           <Toaster />
-          <UserProvider>
-            <CustomerProvider>
-              <OrderProvider>
-                <ProductProvider>
-                  {getLayout(<Component {...pageProps} />)}
-                </ProductProvider>
-              </OrderProvider>
-            </CustomerProvider>
-          </UserProvider>
+          <SignupProvider>
+            <UserProvider>
+              <CustomerProvider>
+                <OrderProvider>
+                  <ProductProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                    <SignupDrawer />
+                  </ProductProvider>
+                </OrderProvider>
+              </CustomerProvider>
+            </UserProvider>
+          </SignupProvider>
         </HomeProvider>
       </ThemeProvider>
     </SessionProvider>

@@ -2,10 +2,10 @@
   "name": "keycase-demo-web",
   "version": "0.1.0",
   "private": true,
-  "scripts": {   
-    "predev": "DB_PROVIDER=sqlite node prisma/switch-provider.js",
+  "scripts": {
+    "predev": "cross-env DB_PROVIDER=sqlite node prisma/switch-provider.js",
     "dev": "next dev",
-    "prebuild": "DB_PROVIDER=postgresql node prisma/switch-provider.js",
+    "prebuild": "cross-env DB_PROVIDER=postgresql node prisma/switch-provider.js",
     "build": "prisma generate && prisma db push && next build",
     "postbuild": "npm run seed:vercel",
     "start": "next start",
@@ -59,6 +59,7 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/swagger-ui-react": "^5.18.0",
     "@types/ws": "^8.18.1",
+    "cross-env": "^10.0.0",
     "prisma": "^5.2.0"
   },
   "prisma": {
