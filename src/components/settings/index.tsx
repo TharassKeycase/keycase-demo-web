@@ -92,7 +92,7 @@ const SettingsPage = () => {
           </Alert>
 
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Clicking "Reset Database" will:
+            Clicking &quot;Reset Database&quot; will:
           </Typography>
 
           <List sx={{ mb: 3 }}>
@@ -248,7 +248,7 @@ const SettingsPage = () => {
             <br />
             • Create fresh test data
             <br />
-            • Reset all passwords to "Welcome1"
+            • Reset all passwords to &quot;Welcome1&quot;
             <br />
             • This action cannot be undone
           </Typography>
