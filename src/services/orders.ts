@@ -279,16 +279,25 @@ export const updateOrder = async (id: number, orderData: { orderItems?: OrderIte
 
 export const deleteOrder = async (id: number, userId: number): Promise<void> => {
     // Check if order exists
-    await getOrder(id);
-
-    // Soft delete: archive the order
-    await prisma.order.update({
+    const order = await prisma.order.findUnique({
         where: { id },
-        data: {
-            archived: true,
-            archivedAt: new Date(),
-            updatedById: userId,
-        },
+    });
+
+    if (!order) {
+        throw new ValidationError(1003, 404, "Order not found");
+    }
+
+    // Permanently delete order and its items in a transaction
+    await prisma.$transaction(async (tx) => {
+        // First, delete all OrderItems belonging to this order
+        await tx.orderItem.deleteMany({
+            where: { orderId: id },
+        });
+
+        // Then, delete the order
+        await tx.order.delete({
+            where: { id },
+        });
     });
 };
 

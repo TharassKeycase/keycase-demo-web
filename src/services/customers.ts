@@ -125,18 +125,35 @@ export const updateCustomer = async (id: number, customer: CustomerCreate): Prom
 }
 
 export const deleteCustomer = async (id: number): Promise<void> => {
-
-    const customer = await getCustomer(id);
+    // Check if customer exists
+    const customer = await prisma.customer.findUnique({
+        where: { id },
+    });
     if (!customer) {
         throw new ValidationError(1004, 404, "Customer not found");
     }
 
-    await prisma.customer.update({
-        where: { id },
-        data: {
-            archived: true,
-            archivedAt: new Date(),
-            updatedAt: new Date(),
-        },
+    // Permanently delete customer and all related data in a transaction
+    await prisma.$transaction(async (tx) => {
+        // First, delete all OrderItems for orders belonging to this customer
+        await tx.orderItem.deleteMany({
+            where: {
+                order: {
+                    customerId: id,
+                },
+            },
+        });
+
+        // Then, delete all Orders belonging to this customer
+        await tx.order.deleteMany({
+            where: {
+                customerId: id,
+            },
+        });
+
+        // Finally, delete the customer
+        await tx.customer.delete({
+            where: { id },
+        });
     });
 }
